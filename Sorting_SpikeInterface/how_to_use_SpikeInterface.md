@@ -1,56 +1,68 @@
-# How to use SpikeInterface 0.101
+# How to use SpikeInterface
 
-说明:
+1. SpikeInterface是一个积极开发中的项目, 新的版本可能会有依赖和API的变更, 此指南也应及时翻新
 
-1. 适用于 0.101(.2) 版本的 SpikeInterface (此指南成稿期间就已经从 0.101.2 更新到 0.102 了), 注意 SpikeInterface 是一个积极开发中的项目, 新的版本可能会有依赖和 API 的变更, 此指南也及时翻新
-2. 需结合同名的 jupyter notebook 食用
+   经过验证可以正常使用的SI版本:
 
-一些使用基操:
+   - 0.101(.2)
+   - 0.102
 
-1. SpikeInterface 中的 example 有些是 .py 格式, 但是本质是通过 jupytext 插件将 .ipynb 改成了 .py 格式, 需要 `pip install jupytext` 之后右键 open with notebook 打开 (如果在vscode中使用, 需要安装 `Jupytext for Notebooks`, 之后可以以 notebook 格式打开 .py 文件)
-2. 要下载 [G-Node GIN](https://gin.g-node.org/) 平台上托管的数据, 需要 `pooch` `datalad` 两个包, 其中 `datalad` 包的安装比较特殊(管理员权限运行anaconda):
+2. 一些会用到的工具
 
-```bash
-pip install datalad-installer
-datalad-installer git-annex -m datalad/packages
-pip install datalad
-```
+   - SpikeInterface中的example有些是.py格式, 但是本质是通过jupytext插件将.ipynb改成了.py格式, 需要`pip install jupytext`之后右键open with notebook打开 (如果在vscode中使用, 需要安装`Jupytext for Notebooks`, 之后可以以notebook格式打开.py文件)
+
+   - 要下载[G-Node GIN](https://gin.g-node.org/)平台上托管的数据, 需要`pooch`, `datalad`两个包, 其中`datalad`包的安装比较特殊(管理员权限运行anaconda):
+
+     ```bash
+     pip install datalad-installer
+     datalad-installer git-annex -m datalad/packages
+     pip install datalad
+     ```
+
+3. 本指南主要参考:
+
+   - [GitHub 库](https://github.com/SpikeInterface/spikeinterface)中的[quickstart.py](https://github.com/SpikeInterface/spikeinterface/tree/main/examples/get_started)
+
+   - [SpikeInterface tutorial](https://spikeinterface.readthedocs.io/en/stable/)
+   - [ProbeInterface tutorial](https://probeinterface.readthedocs.io/en/main/index.html)
 
 ## 安装
 
-### 安装 SpikeInterface 本体
+### 安装SpikeInterface本体
+
+安装前可以去[pypi 官网](https://pypi.org/project/spikeinterface/0.102.0/)看一下SpikeInterface依赖的python版本
 
 ```bash
-conda create -n si-env python==3.8
-conda activate si-env
-pip install spikeinterface[full,widgets]
+conda create -n si python==3.9
+conda activate si
+pip install "spikeinterface[full,widgets]"
 ```
 
-官方的简化版安装教程好像比较靠谱一点
+(还有在vscode中运行.ipynb文件需要的ipykernel)
 
-### 在 docker 中安装 sorters
+### 在docker中安装sorters
 
-spikeinterface 可以使用 docker 来直接安装 sorter, 甚至可以通过这种方法避免配置 MATLAB 和 cuda 等繁琐的工具
+如何安装docker请自行百度
 
-### 安装 phy2
+spikeinterface可以使用[docker hub](https://hub.docker.com/u/spikeinterface)中的镜像来直接搞定各种sorter, 甚至可以通过这种方法避免配置MATLAB和cuda等繁琐的工具
 
-1. 如果网络状况 OK (国内可能都不太 OK, 要给 anaconda 环境中的 git 配置网络)
+### 安装phy2
 
-   直接下载一个 `environment.yml` 文件, 然后执行
+1. 如果网络状况OK(国内可能都不太OK, 要给anaconda环境中的git配置网络)
+
+   直接下载一个`environment.yml`文件, 然后执行
 
    ```bash
    conda env create -f /path/to/environment.yml
    ```
 
-   
+2. 如果网络状况不OK(至少得搞定conda换源+能连上GitHub)
 
-2. 如果网络状况不 OK (至少得搞定 conda 换源 + 能连上 GitHub )
+   1. 从GitHub下载phy2的文件
 
-   1. 从 GitHub 下载 phy2 的文件
+   2. 把environment.yml里最后两行关于pip的内容删掉, **另存**为一个文件`env.yml`
 
-   2. 把 environment.yml 里最后两行删掉, **另存**为一个文件 `env.yml`
-
-   3. 在 anaconda 中执行以下命令
+   3. 在anaconda中执行以下命令
 
       ```bash
       cd /path/to/phy2
