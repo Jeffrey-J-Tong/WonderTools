@@ -71,6 +71,10 @@ spikeinterface可以使用[docker hub](https://hub.docker.com/u/spikeinterface)�
       pip install .
       ```
 
+### 安装CUDA和NVIDIA Container Toolkit
+
+
+
 ## 使用
 
 ### 1. 加载数据
@@ -121,6 +125,11 @@ import numcodecs
 
 ### 5. Spike Sorting
 
+建议的sorter (GPT的建议):
+
+- 对于tetrode数据: kilosort 2
+- 对于硅电极数据: MountainSort 4 or 5, Klusta
+
 si 支持的 sorting 方式:
 
 1. (x) 调用外部 sorter
@@ -131,6 +140,7 @@ si 支持的 sorting 方式:
    - 处于开发初期, 且并未被广泛使用
 3. 直接使用 SpikeInterface 官方做好的 docker 镜像
    - 使用这种方法甚至不需要 MATLAB 来运行 KiloSort
+   - `pip install docker`
 
 ```python
 si.available_sorters()  # 可用的 sorting 工具
@@ -143,7 +153,7 @@ si.installed_sorters()  # 已经安装的 sorting 工具
 2. 安装对应的 python SDK `pip install docker/spython`
 3. 为了使用 GPU 加速, 需要安装 CUDA 和 [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) ([说明](https://spikeinterface.readthedocs.io/en/0.95.0/containerized_sorters.html))
 
-在 docker 中只需要安装镜像即可, 不需要创建对应的容器, 在运行脚本过程中会自动创建 (以及即使创建了容器好像也运行不起来hhhhh)
+在 docker 中只需要安装镜像即可, 不需要创建对应的容器, 在运行脚本过程中会自动创建
 
 01/24/2025: 未使用 GPU 加速情况下 demo 数据运行 KS 耗时 2m 37.9s
 
